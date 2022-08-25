@@ -8,7 +8,6 @@ import {
 } from 'typeorm';
 
 export enum UserRole {
-  superadmin = 'godUser',
   admin = 'admin',
   normal = 'normal',
 }
