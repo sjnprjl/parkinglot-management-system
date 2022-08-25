@@ -6,6 +6,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
 import { LocationModule } from './location/location.module';
+import { ParkingLotModule } from './parking-lot/parking-lot.module';
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import { LocationModule } from './location/location.module';
       }),
     }),
     LocationModule,
+    ParkingLotModule,
   ],
   controllers: [AppController],
   providers: [AppService],
