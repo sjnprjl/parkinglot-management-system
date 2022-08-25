@@ -34,13 +34,13 @@ export class LocationController {
     return this.locationService.findOneById(id);
   }
 
-  @Roles(UserRole.admin, UserRole.superadmin)
+  @Roles(UserRole.admin)
   @Post()
   create(@Body() createLocationDto: CreateLocationDto) {
     return this.locationService.create(createLocationDto);
   }
 
-  @Roles(UserRole.admin, UserRole.superadmin)
+  @Roles(UserRole.admin)
   @Patch('/:id')
   update(
     @Param('id', ParseUUIDPipe) id: string,
@@ -49,7 +49,7 @@ export class LocationController {
     return this.locationService.update(id, updateLocationDto);
   }
 
-  @Roles(UserRole.admin, UserRole.superadmin)
+  @Roles(UserRole.admin)
   @Delete('/:id')
   delete(@Param('id', ParseUUIDPipe) id: string) {
     return this.locationService.delete(id);
