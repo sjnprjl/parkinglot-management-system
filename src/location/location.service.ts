@@ -12,13 +12,19 @@ export class LocationService {
     @InjectRepository(Location)
     private readonly locationRepository: Repository<Location>,
   ) {}
-  async findOneById(id: string) {
+  async findOneOrThrow(id: string) {
     const location = await this.locationRepository.findOne({ where: { id } });
-    if (!location) throw new BadRequestException('location not found');
+    if (!location)
+      throw new BadRequestException('location could not be found.');
     return location;
   }
-  async find() {
-    return await this.locationRepository.find();
+
+  async findOneById(id: string) {
+    const location = await this.findOneOrThrow(id);
+    return location;
+  }
+  async find(limit = 10, offset = 0) {
+    return await this.locationRepository.find({ take: limit, skip: offset });
   }
 
   async create(createLocationDto: CreateLocationDto) {
