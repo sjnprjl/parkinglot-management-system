@@ -6,6 +6,7 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.enableVersioning({
     type: VersioningType.URI,
+    defaultVersion: '1',
   });
   app.setGlobalPrefix('api');
   app.useGlobalPipes(
