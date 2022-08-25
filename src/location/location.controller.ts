@@ -7,12 +7,13 @@ import {
   ParseUUIDPipe,
   Patch,
   Post,
+  Query,
   UseGuards,
 } from '@nestjs/common';
-import { Roles } from 'src/shared/decorators/roles.decorator';
-import { JwtAuthGuard } from 'src/shared/guards/jwt.guard';
-import { RolesGuard } from 'src/shared/guards/roles.guard';
-import { UserRole } from 'src/user/entities/user.entity';
+import { Roles } from '../shared/decorators/roles.decorator';
+import { JwtAuthGuard } from '../shared/guards/jwt.guard';
+import { RolesGuard } from '../shared/guards/roles.guard';
+import { UserRole } from '../user/entities/user.entity';
 import { CreateLocationDto } from './dto/create-location.dto';
 import { UpdateLocationDto } from './dto/update-location.dto';
 
@@ -24,8 +25,8 @@ export class LocationController {
   constructor(private readonly locationService: LocationService) {}
 
   @Get()
-  getAll() {
-    return this.locationService.find();
+  getAll(@Query() { limit, offset }) {
+    return this.locationService.find(limit, offset);
   }
 
   @Get('/:id')
