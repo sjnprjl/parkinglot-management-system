@@ -4,7 +4,7 @@ import { AbstractIsCreator } from 'src/shared/guards/is-creator.guard';
 import { ParkingLotService } from '../parking-lot.service';
 
 @Injectable()
-export class IsAdmin extends AbstractIsCreator {
+export class IsAdminGuard extends AbstractIsCreator {
   parkingLotId: string;
   constructor(
     @Inject(ParkingLotService)
