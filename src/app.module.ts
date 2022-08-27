@@ -7,6 +7,7 @@ import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
 import { LocationModule } from './location/location.module';
 import { ParkingLotModule } from './parking-lot/parking-lot.module';
+import { ParkingSpotModule } from './parking-spot/parking-spot.module';
 import { ParkingTypeModule } from './parking-type/parking-type.module';
 
 @Module({
@@ -29,6 +30,7 @@ import { ParkingTypeModule } from './parking-type/parking-type.module';
     }),
     LocationModule,
     ParkingLotModule,
+    ParkingSpotModule,
     ParkingTypeModule,
   ],
   controllers: [AppController],
