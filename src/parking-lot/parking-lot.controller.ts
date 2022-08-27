@@ -111,7 +111,7 @@ export class ParkingLotController {
   ) {
     return await this.parkingLotParkingSpotTypeRepo.update(
       {
-        // parkingLotId,
+        parkingLotId,
         id: parkingTypeId,
       },
       input,
