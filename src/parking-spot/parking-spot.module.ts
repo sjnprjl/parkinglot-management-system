@@ -13,5 +13,6 @@ import { ParkingSpotService } from './parking-spot.service';
   ],
   controllers: [ParkingSpotController],
   providers: [ParkingSpotService],
+  exports: [ParkingSpotService],
 })
 export class ParkingSpotModule {}

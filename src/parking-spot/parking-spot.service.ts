@@ -30,7 +30,6 @@ export class ParkingSpotService {
         select: {
           id: true,
           parkingLotId: true,
-          bookingId: true,
           parkingSpotType: {
             id: true,
             rate: true,
@@ -62,7 +61,6 @@ export class ParkingSpotService {
         select: {
           id: true,
           parkingLotId: true,
-          bookingId: true,
           parkingSpotType: {
             id: true,
             rate: true,

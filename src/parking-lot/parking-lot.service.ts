@@ -24,6 +24,7 @@ export class ParkingLotService {
       relations: { location: true },
       select: {
         id: true,
+        name: true,
         location: { location: true },
       },
     });
@@ -49,7 +50,6 @@ export class ParkingLotService {
         name: true,
         parkingSpots: {
           id: true,
-          bookingId: true,
           parkingSpotType: {
             rate: true,
             parkingSpotType: {

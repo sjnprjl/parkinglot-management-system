@@ -1,3 +1,4 @@
+import { Booking } from 'src/booking/entities/booking.entity';
 import { ParkingLot } from 'src/parking-lot/entities/parking-lot.entity';
 import { ParkingLotParkingSpotType } from 'src/parking-lot/entities/parking-lot_parking-type.entity';
 import {
@@ -5,6 +6,7 @@ import {
   Entity,
   JoinColumn,
   ManyToOne,
+  OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
@@ -15,9 +17,6 @@ export class ParkingSpot {
 
   @Column()
   parkingLotId!: string;
-
-  @Column({ nullable: true })
-  bookingId?: string;
 
   @Column()
   parkingSpotTypeId: string;
@@ -31,4 +30,7 @@ export class ParkingSpot {
   @ManyToOne(() => ParkingLot, (parkingLot) => parkingLot.parkingSpots)
   @JoinColumn({ name: 'parkingLotId' })
   parkingLot!: ParkingLot;
+
+  @OneToOne(() => Booking)
+  booking: Booking;
 }
