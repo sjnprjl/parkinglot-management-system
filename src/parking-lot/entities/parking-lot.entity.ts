@@ -1,3 +1,4 @@
+import { ParkingSpot } from 'src/parking-spot/entities/parking-spot.entity';
 import { User } from 'src/user/entities/user.entity';
 import {
   Column,
@@ -29,10 +30,16 @@ export class ParkingLot {
   @JoinColumn({ name: 'adminId' })
   admin: User;
 
-  @OneToMany(() => ParkingLotParkingSpotType, (parkingLotParkingSpotType) => parkingLotParkingSpotType.parkingLot)
+  @OneToMany(
+    () => ParkingLotParkingSpotType,
+    (parkingLotParkingSpotType) => parkingLotParkingSpotType.parkingLot,
+  )
   parkingLotParkingSpotType: ParkingLotParkingSpotType[];
 
   @ManyToOne(() => Location)
   @JoinColumn({ name: 'locationId' })
   location: Location;
+
+  @OneToMany(() => ParkingSpot, (parkingSpot) => parkingSpot.parkingLot)
+  parkingSpots: ParkingSpot[];
 }
