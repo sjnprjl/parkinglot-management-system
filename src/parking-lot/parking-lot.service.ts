@@ -21,12 +21,9 @@ export class ParkingLotService {
     const [value, count] = await this.parkingLotRepository.findAndCount({
       take: limit,
       skip: offset,
-      relations: { location: true, admin: true },
+      relations: { location: true },
       select: {
         id: true,
-        admin: {
-          fullName: true,
-        },
         location: { location: true },
       },
     });
@@ -36,14 +33,29 @@ export class ParkingLotService {
   private async findOneOrThrow(id: string) {
     const parkingLot = await this.parkingLotRepository.findOne({
       where: { id },
-      relations: { location: true, admin: true },
+      relations: {
+        location: true,
+        parkingSpots: {
+          parkingSpotType: {
+            parkingSpotType: true,
+          },
+        },
+      },
       select: {
         id: true,
-        admin: {
-          fullName: true,
-        },
         location: {
           location: true,
+        },
+        name: true,
+        parkingSpots: {
+          id: true,
+          bookingId: true,
+          parkingSpotType: {
+            rate: true,
+            parkingSpotType: {
+              type: true,
+            },
+          },
         },
       },
     });
