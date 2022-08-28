@@ -22,6 +22,23 @@ export class ParkingSpotService {
         where: {
           id,
         },
+        relations: {
+          parkingSpotType: {
+            parkingSpotType: true,
+          },
+        },
+        select: {
+          id: true,
+          parkingLotId: true,
+          bookingId: true,
+          parkingSpotType: {
+            id: true,
+            rate: true,
+            parkingSpotType: {
+              type: true,
+            },
+          },
+        },
       });
     } catch (err) {
       throw new BadRequestException('could not find parking spot.');
@@ -34,13 +51,33 @@ export class ParkingSpotService {
 
   async findAll(parkingLotId?: string) {
     if (parkingLotId) {
-      return await this.parkingSpotRepo.find({ where: { parkingLotId } });
+      return await this.parkingSpotRepo.find({
+        where: { parkingLotId },
+
+        relations: {
+          parkingSpotType: {
+            parkingSpotType: true,
+          },
+        },
+        select: {
+          id: true,
+          parkingLotId: true,
+          bookingId: true,
+          parkingSpotType: {
+            id: true,
+            rate: true,
+            parkingSpotType: {
+              type: true,
+            },
+          },
+        },
+      });
     }
     return await this.parkingSpotRepo.find();
   }
 
-  async findSpotFromParkingLot(parkingLotId: string, id: string) {
-    const spot = await this.parkingSpotRepo.findOne({
+  async findSpotTypeFromParkingLot(parkingLotId: string, id: string) {
+    const spot = await this.parkingLotParkingSpotTypeRepo.findOne({
       where: {
         id,
         parkingLotId,
@@ -54,7 +91,7 @@ export class ParkingSpotService {
     parkingLotId: string,
     createParkingSpotDto: CreateParkingSpotDto,
   ) {
-    await this.findSpotFromParkingLot(
+    await this.findSpotTypeFromParkingLot(
       parkingLotId,
       createParkingSpotDto.parkingSpotTypeId,
     );
@@ -69,7 +106,7 @@ export class ParkingSpotService {
     parkingLotId: string,
     updateParkingSpotDto: UpdateParkingSpotDto,
   ) {
-    await this.findSpotFromParkingLot(
+    await this.findSpotTypeFromParkingLot(
       parkingLotId,
       updateParkingSpotDto.parkingSpotTypeId,
     );
