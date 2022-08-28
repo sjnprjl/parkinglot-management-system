@@ -32,7 +32,10 @@ export class ParkingSpotService {
     return await this.findOneOrThrow(id);
   }
 
-  async findAll() {
+  async findAll(parkingLotId?: string) {
+    if (parkingLotId) {
+      return await this.parkingSpotRepo.find({ where: { parkingLotId } });
+    }
     return await this.parkingSpotRepo.find();
   }
 
