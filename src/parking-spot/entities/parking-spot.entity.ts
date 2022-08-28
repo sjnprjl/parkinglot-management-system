@@ -1,14 +1,18 @@
 import { ParkingLot } from 'src/parking-lot/entities/parking-lot.entity';
-import { Column, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 
+@Entity()
 export class ParkingSpot {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
   @Column()
-  parkingLotId: keyof ParkingLot['id'];
+  parkingLotId!: string;
+
+  @Column({ nullable: true })
+  bookingId?: string;
 
   @ManyToOne(() => ParkingLot)
   @JoinColumn({ name: 'parkingLotId' })
-  parkingLot: ParkingLot;
+  parkingLot!: ParkingLot;
 }
