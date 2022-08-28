@@ -28,6 +28,24 @@ export class BookingService {
     });
   }
 
+  async findOne(id: string) {
+    return await this.bookingRepository.findOne({ where: { id } });
+  }
+
+  private async calculateTotalParkingCharge({
+    parkingTime,
+    parkingSpotId,
+  }: {
+    parkingTime: Date;
+    parkingSpotId: string;
+  }) {
+    const {
+      parkingSpotType: { rate },
+    } = await this.parkingSpotService.findOne(parkingSpotId);
+    const netHour = dateDiffInHours(new Date(), parkingTime);
+    return { netHour, amount: netHour * rate };
+  }
+
   async create(userId: string, input: CreateBookingDto) {
     const hasParkingSpotBook = await this.bookingRepository.findOne({
       where: {
@@ -36,11 +54,15 @@ export class BookingService {
     });
     if (hasParkingSpotBook)
       throw new BadRequestException('parking spot has already been booked.');
-    const {
-      parkingSpotType: { rate },
-    } = await this.parkingSpotService.findOne(input.parkingSpotId);
-    const dateDifference = dateDiffInHours(new Date(), new Date(input.time));
-    const amount = dateDifference * rate;
-    return await this.bookingRepository.save({ userId, ...input, amount });
+    const { amount, netHour: hour } = await this.calculateTotalParkingCharge({
+      parkingTime: new Date(input.time),
+      parkingSpotId: input.parkingSpotId,
+    });
+    return await this.bookingRepository.save({
+      userId,
+      ...input,
+      amount,
+      hour,
+    });
   }
 }
