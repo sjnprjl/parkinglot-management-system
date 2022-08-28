@@ -28,6 +28,9 @@ export class Booking {
   @Column({ type: 'timestamp' }) time: Date;
 
   @Column()
+  hour: number;
+
+  @Column()
   parkingSpotId: string;
 
   @Column({ enum: BookingStatus, default: BookingStatus.pending })
