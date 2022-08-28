@@ -10,6 +10,7 @@ import { ParkingLotModule } from './parking-lot/parking-lot.module';
 import { ParkingSpotModule } from './parking-spot/parking-spot.module';
 import { ParkingTypeModule } from './parking-type/parking-type.module';
 import { BookingModule } from './booking/booking.module';
+import { ScheduleModule } from '@nestjs/schedule';
 
 @Module({
   imports: [
@@ -34,6 +35,7 @@ import { BookingModule } from './booking/booking.module';
     ParkingSpotModule,
     ParkingTypeModule,
     BookingModule,
+    ScheduleModule.forRoot(),
   ],
   controllers: [AppController],
   providers: [AppService],
