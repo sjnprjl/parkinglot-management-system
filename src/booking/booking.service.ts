@@ -5,6 +5,7 @@ import { dateDiffInHours } from 'src/shared/utils/date-difference';
 import { Repository } from 'typeorm';
 import { CreateBookingDto } from './dto/create-booking.dto';
 import { Booking, BookingStatus } from './entities/booking.entity';
+import { Cron, CronExpression } from '@nestjs/schedule';
 
 @Injectable()
 export class BookingService {
@@ -29,7 +30,8 @@ export class BookingService {
   }
 
   async findOne(id: string) {
-    return await this.bookingRepository.findOne({ where: { id } });
+    const one = await this.bookingRepository.findOne({ where: { id } });
+    return one;
   }
 
   private async calculateTotalParkingCharge({
@@ -63,6 +65,20 @@ export class BookingService {
       ...input,
       amount,
       hour,
+    });
+  }
+
+  @Cron(CronExpression.EVERY_10_MINUTES)
+  async deletePendingBookings() {
+    const pendingBookings = await this.bookingRepository.find({
+      where: {
+        status: BookingStatus.pending,
+      },
+    });
+    pendingBookings.map(async (booking) => {
+      const HOUR_LIMIT = 1;
+      const diff = dateDiffInHours(booking.createdAt, new Date());
+      if (diff >= HOUR_LIMIT) await this.bookingRepository.delete(booking.id);
     });
   }
 }
