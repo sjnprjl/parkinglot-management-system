@@ -25,10 +25,14 @@ export class ParkingSpotController {
   constructor(private readonly parkingSpotService: ParkingSpotService) {}
 
   @Get('/:id')
-  getOne(@Param('id', ParseUUIDPipe) id: string) {}
+  getOne(@Param('id', ParseUUIDPipe) id: string) {
+    return this.parkingSpotService.findOne(id);
+  }
 
   @Get()
-  get() {}
+  get(@Param('parkingLotId') parkingLotId: string) {
+    return this.parkingSpotService.findAll(parkingLotId);
+  }
 
   @UseGuards(IsParkingLotAdminGuard)
   @Post()
@@ -51,10 +55,7 @@ export class ParkingSpotController {
 
   @UseGuards(IsParkingLotAdminGuard)
   @Delete('/:id')
-  delete(
-    @Param('id') id: string,
-    @Param('parkingLotId') parkingLotId: string,
-  ) {
-	  return this.parkingSpotService.delete(id, parkingLotId);
+  delete(@Param('id') id: string, @Param('parkingLotId') parkingLotId: string) {
+    return this.parkingSpotService.delete(id, parkingLotId);
   }
 }
