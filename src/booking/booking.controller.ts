@@ -2,6 +2,7 @@ import {
   Body,
   Controller,
   Get,
+  Param,
   ParseEnumPipe,
   Post,
   Query,
@@ -27,5 +28,9 @@ export class BookingController {
     @GetUser('id') userId: string,
   ) {
     return this.bookingService.find(limit, offset, filter, userId);
+  }
+  @Get('/:id')
+  getOne(@Param('id') id: string) {
+    return this.bookingService.findOne(id);
   }
 }
