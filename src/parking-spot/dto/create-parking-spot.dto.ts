@@ -1,3 +1,10 @@
-import { IsString } from 'class-validator';
+import { IsOptional, IsString, IsUUID } from 'class-validator';
 
-export class CreateParkingSpotDto {}
+export class CreateParkingSpotDto {
+  @IsUUID('4')
+  parkingSpotTypeId!: string;
+
+  @IsOptional()
+  @IsUUID('4')
+  bookingId?: string;
+}
