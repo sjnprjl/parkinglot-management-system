@@ -9,6 +9,7 @@ import { LocationModule } from './location/location.module';
 import { ParkingLotModule } from './parking-lot/parking-lot.module';
 import { ParkingSpotModule } from './parking-spot/parking-spot.module';
 import { ParkingTypeModule } from './parking-type/parking-type.module';
+import { BookingModule } from './booking/booking.module';
 
 @Module({
   imports: [
@@ -32,6 +33,7 @@ import { ParkingTypeModule } from './parking-type/parking-type.module';
     ParkingLotModule,
     ParkingSpotModule,
     ParkingTypeModule,
+    BookingModule,
   ],
   controllers: [AppController],
   providers: [AppService],
