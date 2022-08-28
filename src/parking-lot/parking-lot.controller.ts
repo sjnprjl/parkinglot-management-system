@@ -9,6 +9,7 @@ import {
   Patch,
   Post,
   Query,
+  SetMetadata,
   UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
@@ -72,15 +73,12 @@ export class ParkingLotController {
       where: {
         parkingLotId: id,
       },
-      relations: ['parkingSpotType', 'parkingLot'],
+      relations: ['parkingSpotType'],
       select: {
+        id: true,
+        rate: true,
         parkingSpotType: {
-          id: true,
           type: true,
-        },
-        parkingLot: {
-          id: true,
-          name: true,
         },
       },
     });
@@ -102,6 +100,7 @@ export class ParkingLotController {
     });
   }
 
+  @SetMetadata('ID', 'parkingLotId')
   @UseGuards(IsAdminGuard)
   @Patch('/:parkingLotId/parking-types/:parkingTypeId')
   async updateParkingSpotType(
