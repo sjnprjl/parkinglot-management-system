@@ -1,5 +1,7 @@
 import {
   Body,
+  CacheInterceptor,
+  CacheTTL,
   Controller,
   Delete,
   Get,
@@ -9,6 +11,7 @@ import {
   Post,
   SetMetadata,
   UseGuards,
+  UseInterceptors,
 } from '@nestjs/common';
 import { UpdateParkingTypeDto } from 'src/parking-lot/dto/update-parking-type.dto';
 import { IsAdminGuard as IsParkingLotAdminGuard } from 'src/parking-lot/guards/is-admin.guard';
@@ -29,8 +32,11 @@ export class ParkingSpotController {
     return this.parkingSpotService.findOne(id);
   }
 
+  @UseInterceptors(CacheInterceptor)
+  @CacheTTL(20)
   @Get()
   get(@Param('parkingLotId') parkingLotId: string) {
+    console.log('not cached');
     return this.parkingSpotService.findAll(parkingLotId);
   }
 
