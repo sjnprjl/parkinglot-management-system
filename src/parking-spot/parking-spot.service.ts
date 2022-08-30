@@ -2,6 +2,7 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ParkingLotParkingSpotType } from 'src/parking-lot/entities/parking-lot_parking-type.entity';
 import { Repository } from 'typeorm';
+
 import { CreateParkingSpotDto } from './dto/create-parking-spot.dto';
 import { UpdateParkingSpotDto } from './dto/update-parking-spot.dto';
 import { ParkingSpot } from './entities/parking-spot.entity';
@@ -51,16 +52,22 @@ export class ParkingSpotService {
   async findAll(parkingLotId?: string) {
     if (parkingLotId) {
       return await this.parkingSpotRepo.find({
-        where: { parkingLotId },
+        where: {
+          parkingLotId,
+        },
 
         relations: {
           parkingSpotType: {
             parkingSpotType: true,
           },
+          booking: true,
         },
         select: {
           id: true,
           parkingLotId: true,
+          booking: {
+            id: true,
+          },
           parkingSpotType: {
             id: true,
             rate: true,
