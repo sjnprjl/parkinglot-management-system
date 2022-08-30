@@ -31,6 +31,6 @@ export class ParkingSpot {
   @JoinColumn({ name: 'parkingLotId' })
   parkingLot!: ParkingLot;
 
-  @OneToOne(() => Booking)
+  @OneToOne(() => Booking, (booking) => booking.parkingSpot)
   booking: Booking;
 }

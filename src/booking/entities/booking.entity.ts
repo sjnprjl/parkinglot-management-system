@@ -30,7 +30,7 @@ export class Booking {
   @Column()
   hour: number;
 
-  @Column()
+  @Column({ nullable: true })
   parkingSpotId: string;
 
   @Column({ enum: BookingStatus, default: BookingStatus.pending })
@@ -45,7 +45,9 @@ export class Booking {
   @UpdateDateColumn()
   updatedAt: Date;
 
-  @OneToOne(() => ParkingSpot)
+  @OneToOne(() => ParkingSpot, (parkingSpot) => parkingSpot.booking, {
+    nullable: true,
+  })
   @JoinColumn({ name: 'parkingSpotId' })
   parkingSpot: ParkingSpot;
 
