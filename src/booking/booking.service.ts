@@ -1,4 +1,5 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
+
 import { InjectRepository } from '@nestjs/typeorm';
 import { ParkingSpotService } from 'src/parking-spot/parking-spot.service';
 import { dateDiffInHours } from 'src/shared/utils/date-difference';
@@ -78,7 +79,13 @@ export class BookingService {
     pendingBookings.map(async (booking) => {
       const HOUR_LIMIT = 1;
       const diff = dateDiffInHours(booking.createdAt, new Date());
-      if (diff >= HOUR_LIMIT) await this.bookingRepository.delete(booking.id);
+      if (diff >= HOUR_LIMIT)
+        await this.bookingRepository.update(booking.id, {
+          parkingSpot: null,
+          description:
+            'Your booking has been cancelled because you did not pay in time.',
+          status: BookingStatus.failed,
+        });
     });
   }
 }
